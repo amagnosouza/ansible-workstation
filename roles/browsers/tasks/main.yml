@@ -1,0 +1,41 @@
+---
+# Tasks for web browsers (Edge, Chrome)
+
+- name: Configure Microsoft Edge repository
+  block:
+    - name: Import Microsoft GPG key for Edge
+      ansible.builtin.rpm_key:
+        key: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+
+    - name: Add Microsoft Edge repository
+      ansible.builtin.yum_repository:
+        name: microsoft-edge-dev
+        description: Microsoft Edge Repository
+        baseurl: https://packages.microsoft.com/yumrepos/edge
+        gpgcheck: true
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+        enabled: true
+
+    - name: Install Microsoft Edge (Stable)
+      ansible.builtin.dnf:
+        name: microsoft-edge-stable
+        state: present
+  tags: [edge, browsers]
+
+- name: Install Google Chrome (Stable)
+  block:
+    - name: Add Google Chrome repository
+      ansible.builtin.yum_repository:
+        name: google-chrome
+        description: Google Chrome Repository
+        baseurl: "http://dl.google.com/linux/chrome/rpm/stable/{{ ansible_architecture }}"
+        gpgcheck: true
+        gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub
+        enabled: true
+
+    - name: Install Google Chrome
+      ansible.builtin.dnf:
+        name: google-chrome-stable
+        state: present
+  tags: [chrome, browsers]

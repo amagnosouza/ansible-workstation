@@ -1,0 +1,40 @@
+---
+# Tasks for Podman container runtime
+
+- name: Install Podman and podman-compose
+  ansible.builtin.dnf:
+    name:
+      - podman
+      - podman-compose
+    state: present
+  tags: [podman, containers]
+
+- name: Enable and start Podman socket service
+  ansible.builtin.service:
+    name: podman.socket
+    state: started
+    enabled: true
+  tags: [podman, containers]
+
+- name: Ensure podman group exists
+  ansible.builtin.group:
+    name: podman
+    state: present
+  tags: [podman, containers]
+
+- name: Add current user to podman group
+  ansible.builtin.user:
+    name: "{{ target_user }}"
+    groups: podman
+    append: true
+  tags: [podman, containers]
+
+- name: Ensure Docker packages are absent
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: absent
+  failed_when: false
+  tags: [podman, containers]

@@ -1,0 +1,102 @@
+---
+# Site playbook - Fedora Workstation Professional Setup
+# Execute with: ansible-playbook site.yml --ask-become-pass
+# Or locally: ansible-playbook site.yml -i localhost, --ask-become-pass
+
+- name: Fedora Workstation Professional Setup
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  pre_tasks:
+    - name: Ensure running on Fedora
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['os_family'] == 'RedHat'
+          - ansible_facts['distribution'] == 'Fedora'
+        fail_msg: "This playbook is designed for Fedora Workstation."
+        success_msg: "Detected Fedora {{ ansible_facts['distribution_version'] }}: proceeding with configuration."
+      tags: [always]
+
+    - name: Create logs directory
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/logs"
+        state: directory
+        mode: '0755'
+      become: false
+      tags: [always]
+
+  roles:
+    - name: base_system
+      tags: [base, always]
+
+    - name: shell_zsh
+      tags: [shell, zsh]
+
+    - name: fonts_nerd
+      tags: [fonts, nerd]
+
+    - name: starship_prompt
+      tags: [starship, prompt]
+
+    - name: development_tools
+      tags: [development, tools]
+
+    - name: containers_podman
+      tags: [podman, containers]
+
+    - name: kubernetes
+      tags: [kubernetes, k8s]
+
+    - name: browsers
+      tags: [browsers, web]
+
+  post_tasks:
+    - name: Display setup completion summary
+      ansible.builtin.debug:
+        msg: |
+          ===================================================
+          ✓ Fedora Workstation Professional Setup Complete!
+          ===================================================
+
+          Installed Components:
+          ✓ Base Development Tools (vim, git, make, curl, etc.)
+          ✓ Shell: Zsh with Oh My Zsh & Agnoster theme
+          ✓ Prompt: Starship with Catppuccin Latte
+          ✓ Terminal Font: Hack Nerd Font
+          ✓ IDE: Visual Studio Code
+          ✓ Container Runtime: Podman (Docker replacement)
+          ✓ Orchestration: kubectl & Kubernetes
+          ✓ IaC: Terraform
+          ✓ Cloud: AWS CLI
+          ✓ Browsers: Microsoft Edge, Google Chrome
+          ✓ Utilities: btop, ncdu, tree, tmux, etc.
+
+          🚀 Next Steps:
+          1. Open a new terminal (Zsh with Starship active)
+          2. Set terminal font to "Hack Nerd Font"
+          3. Verify installations:
+             - zsh --version
+             - starship --version
+             - podman --version
+             - kubectl version --client
+             - terraform version
+             - code --version
+          4. Configure VS Code extensions
+          5. Test Podman: podman run --rm hello-world
+          6. Configure kubectl context
+
+          📝 Useful Commands:
+          - ansible-playbook site.yml --tags shell,starship
+          - ansible-playbook site.yml --tags podman
+          - ansible-playbook site.yml --tags kubernetes
+          - ansible-playbook site.yml --tags browsers
+
+          📚 Documentation:
+          - Starship: https://starship.rs
+          - Podman: https://podman.io
+          - Kubernetes: https://kubernetes.io
+          - Fedora: https://docs.fedoraproject.org
+
+          ===================================================
+      tags: [always]

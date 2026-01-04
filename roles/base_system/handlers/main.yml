@@ -1,0 +1,14 @@
+---
+# Handlers for base_system role
+
+- name: Restart podman service
+  ansible.builtin.service:
+    name: podman
+    state: restarted
+  listen: "restart podman"
+
+- name: Update font cache
+  ansible.builtin.command:
+    cmd: "fc-cache -fv /home/{{ target_user }}/.local/share/fonts"
+  changed_when: false
+  listen: "update fonts"

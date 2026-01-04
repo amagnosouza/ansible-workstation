@@ -1,0 +1,5 @@
+---
+# Default variables for starship_prompt role
+
+starship_preset: "catppuccin-powerline"
+starship_palette: "catppuccin_latte"

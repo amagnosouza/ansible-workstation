@@ -1,0 +1,59 @@
+---
+# Tasks for Starship prompt installation and configuration
+
+- name: Install Starship via official installer
+  ansible.builtin.shell: |
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+  args:
+    executable: /bin/bash
+  environment:
+    BIN_DIR: "/usr/local/bin"
+  changed_when: true
+  tags: [starship]
+
+- name: Create Starship config directory
+  ansible.builtin.file:
+    path: "/home/{{ target_user }}/.config"
+    state: directory
+    mode: '0755'
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+  tags: [starship]
+
+- name: Apply Catppuccin Powerline preset
+  ansible.builtin.shell: |
+    /usr/local/bin/starship preset {{ starship_preset }} -o /tmp/starship.toml
+  changed_when: true
+  tags: [starship]
+
+- name: Copy Starship config to user directory
+  ansible.builtin.copy:
+    src: /tmp/starship.toml
+    dest: "/home/{{ target_user }}/.config/starship.toml"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    mode: '0644'
+    remote_src: true
+  tags: [starship]
+
+- name: Set Catppuccin Latte palette in Starship config
+  ansible.builtin.lineinfile:
+    path: "/home/{{ target_user }}/.config/starship.toml"
+    regexp: "^palette = "
+    line: "palette = '{{ starship_palette }}'"
+    state: present
+  tags: [starship]
+
+- name: Initialize Starship in Zsh configuration
+  ansible.builtin.lineinfile:
+    path: "/home/{{ target_user }}/.zshrc"
+    line: 'eval "$(starship init zsh)"'
+    state: present
+  become_user: "{{ target_user }}"
+  tags: [starship]
+
+- name: Clean up temporary Starship config
+  ansible.builtin.file:
+    path: /tmp/starship.toml
+    state: absent
+  tags: [starship]

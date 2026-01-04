@@ -1,0 +1,40 @@
+---
+# Tasks for Nerd Font installation
+
+- name: Create fonts directory
+  ansible.builtin.file:
+    path: "/home/{{ target_user }}/.local/share/fonts"
+    state: directory
+    mode: '0755'
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+  tags: [fonts]
+
+- name: Download Nerd Font
+  ansible.builtin.get_url:
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerd_font_version }}/{{ nerd_font_name }}.zip"
+    dest: "/tmp/{{ nerd_font_name }}.zip"
+    mode: '0644'
+  register: font_download
+  tags: [fonts]
+
+- name: Extract Nerd Font
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ nerd_font_name }}.zip"
+    dest: "/home/{{ target_user }}/.local/share/fonts"
+    remote_src: true
+  when: font_download.changed
+  tags: [fonts]
+
+- name: Update font cache
+  ansible.builtin.command:
+    cmd: "fc-cache -fv /home/{{ target_user }}/.local/share/fonts"
+  changed_when: false
+  notify: "update fonts"
+  tags: [fonts]
+
+- name: Clean up downloaded archive
+  ansible.builtin.file:
+    path: "/tmp/{{ nerd_font_name }}.zip"
+    state: absent
+  tags: [fonts]

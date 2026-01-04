@@ -1,0 +1,22 @@
+---
+# Default variables for base_system role
+
+base_packages:
+  - vim-enhanced
+  - btop
+  - curl
+  - ncdu
+  - tree
+  - gnupg2
+  - python3-pip
+  - make
+  - git
+  - bash-completion
+  - zsh
+  - flameshot
+  - terminator
+  - plocate
+  - dnf-plugins-core
+  - tmux
+  - alacritty
+  - cargo

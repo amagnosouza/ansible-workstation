@@ -1,0 +1,17 @@
+---
+# Base system packages for Fedora Workstation
+
+- name: Install base system packages
+  ansible.builtin.dnf:
+    name: "{{ base_packages }}"
+    state: present
+    update_cache: true
+  tags: [base, packages]
+
+- name: Create logs directory for playbook
+  ansible.builtin.file:
+    path: "{{ playbook_dir }}/logs"
+    state: directory
+    mode: '0755'
+  become: false
+  tags: [base]

@@ -1,0 +1,43 @@
+---
+# Tasks for Kubernetes tools (kubectl, FreeLens optional)
+
+- name: Configure Kubernetes repository
+  ansible.builtin.yum_repository:
+    name: kubernetes
+    description: Kubernetes Official Repository - Stable
+    baseurl: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/"
+    gpgcheck: true
+    gpgkey: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/repodata/repomd.xml.key"
+    enabled: true
+  tags: [kubernetes, kubectl]
+
+- name: Install kubectl
+  ansible.builtin.dnf:
+    name: kubectl
+    state: present
+  tags: [kubernetes, kubectl]
+
+- name: Install FreeLens (Kubernetes IDE) - Optional
+  block:
+    - name: Download FreeLens RPM
+      ansible.builtin.get_url:
+        url: "{{ freelens_rpm_url }}"
+        dest: "/tmp/freelens.rpm"
+        mode: '0644'
+      when: freelens_rpm_url | default('') | length > 0
+      tags: [freelens, optional]
+
+    - name: Install FreeLens RPM
+      ansible.builtin.dnf:
+        name: /tmp/freelens.rpm
+        state: present
+      when: freelens_rpm_url | default('') | length > 0
+      tags: [freelens, optional]
+
+    - name: Clean up FreeLens installer
+      ansible.builtin.file:
+        path: "/tmp/freelens.rpm"
+        state: absent
+      when: freelens_rpm_url | default('') | length > 0
+      tags: [freelens, optional]
+  tags: [kubernetes, optional]

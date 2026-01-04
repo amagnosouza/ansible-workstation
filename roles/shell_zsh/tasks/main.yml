@@ -1,0 +1,57 @@
+---
+# Tasks for Zsh shell configuration
+
+- name: Check if Oh My Zsh is present
+  ansible.builtin.stat:
+    path: "/home/{{ target_user }}/.oh-my-zsh"
+  register: ohmyzsh
+  tags: [zsh]
+
+- name: Install Oh My Zsh non-interactively
+  ansible.builtin.shell: |
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | \
+    env RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh
+  when: not ohmyzsh.stat.exists
+  changed_when: true
+  become_user: "{{ target_user }}"
+  tags: [zsh]
+
+- name: Set default shell to Zsh
+  ansible.builtin.user:
+    name: "{{ target_user }}"
+    shell: /usr/bin/zsh
+  tags: [zsh]
+
+- name: Ensure Zsh is registered in /etc/shells
+  ansible.builtin.lineinfile:
+    path: /etc/shells
+    line: /usr/bin/zsh
+    state: present
+  register: shells_updated
+  tags: [zsh]
+
+- name: Change default shell to Zsh with chsh
+  ansible.builtin.command:
+    cmd: "chsh -s /usr/bin/zsh {{ target_user }}"
+  changed_when: true
+  when: shells_updated.changed or true
+  tags: [zsh]
+
+- name: Create Zsh config directory
+  ansible.builtin.file:
+    path: "/home/{{ target_user }}/.oh-my-zsh/completions"
+    state: directory
+    mode: '0755'
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+  tags: [zsh]
+
+- name: Deploy Zsh configuration from template
+  ansible.builtin.template:
+    src: zshrc.j2
+    dest: "/home/{{ target_user }}/.zshrc"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    mode: '0644'
+  become_user: "{{ target_user }}"
+  tags: [zsh]
