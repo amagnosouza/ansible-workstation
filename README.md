@@ -1,6 +1,6 @@
-# Configuração Profissional da Estação de Trabalho Fedora
+# Configuração da Estação de Trabalho Fedora
 
-Projeto Ansible para automatizar a configuração profissional de uma estação de trabalho Fedora com ferramentas de desenvolvimento, runtime de containers, ferramentas Kubernetes e utilitários essenciais.
+Projeto Ansible para automatizar a configuração de uma estação de trabalho Fedora com ferramentas de desenvolvimento, runtime de containers, ferramentas Kubernetes e utilitários essenciais.
 
 **Versão:** 2.0 (Modular com Roles)  
 **Testado Em:** Fedora Workstation 43+  
@@ -9,7 +9,7 @@ Projeto Ansible para automatizar a configuração profissional de uma estação 
 ## Recursos
 
 - **Design Modular**: Organizado com roles Ansible para manutenibilidade
-- **Configuração Profissional**: Segue as melhores práticas do Fedora
+- **Configuração**: Segue as melhores práticas do Fedora
 - **Local & Remoto**: Suporta execução local e remota
 - **Idempotente**: Seguro para executar várias vezes
 - **GPG Verificado**: Todos os repositórios usam verificação de assinatura
