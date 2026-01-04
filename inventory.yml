@@ -6,7 +6,6 @@ all:
   hosts:
     localhost:
       ansible_connection: local
-      ansible_user: "{{ ansible_user_id }}"
       ansible_become: true
       ansible_become_method: sudo
   
@@ -16,7 +15,7 @@ all:
         localhost:
       vars:
         # Target user (actual user, not root)
-        target_user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+        target_user: "{{ ansible_env.SUDO_USER }}"
         # System variables
         system_family: "{{ ansible_facts.os_family }}"
         system_distro: "{{ ansible_facts.distribution }}"
