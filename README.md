@@ -19,7 +19,7 @@ Projeto Ansible para automatizar a configuração de uma estação de trabalho F
 ## Componentes Instalados
 
 ### Sistema & Desenvolvimento
-- Pacotes base: vim, curl, git, make, tmux, alacritty
+- Pacotes base: vim, curl, git, make, tmux, Ghostty, ansible-lint
 - Terminal: Zsh com Oh My Zsh
 - Prompt do shell: Starship com tema Catppuccin Latte
 - Fonte do terminal: Hack Nerd Font (v3.2.1)
@@ -32,12 +32,13 @@ Projeto Ansible para automatizar a configuração de uma estação de trabalho F
 - **AWS CLI** (Amazon Web Services)
 - **Terraform** (Infraestrutura como Código)
 - **kubectl** (Cliente Kubernetes)
-- **Podman** (Runtime de container compatível com Docker)
-- **podman-compose** (Orquestração multi-container)
+- **Docker Engine** (Runtime de containers)
+- **Docker Compose** (Orquestração multi-container)
 
 ### Navegadores
 - **Microsoft Edge** (Estável)
 - **Google Chrome** (Estável)
+- **Brave Browser** (Estável)
 
 ### Opcional
 - **FreeLens** (IDE Kubernetes - via extra-vars)
@@ -50,6 +51,15 @@ Projeto Ansible para automatizar a configuração de uma estação de trabalho F
 - Acesso `sudo`
 - Conexão com internet
 - Ansible 2.10+
+
+### Validação local
+
+```bash
+ansible-playbook site.yml --syntax-check
+ansible-lint site.yml
+```
+
+Essas mesmas validações são executadas automaticamente pelo GitHub Actions em cada push para `main` e em pull requests.
 
 ### 1. Instale Ansible (se ainda não estiver instalado)
 
@@ -98,7 +108,7 @@ ansible-playbook site.yml --tags terraform --ask-become-pass
 ansible-playbook site.yml --tags aws --ask-become-pass
 
 # Containers & Orquestração
-ansible-playbook site.yml --tags podman,containers --ask-become-pass
+ansible-playbook site.yml --tags docker,containers --ask-become-pass
 ansible-playbook site.yml --tags kubernetes,k8s --ask-become-pass
 
 # Navegadores
@@ -107,7 +117,7 @@ ansible-playbook site.yml --tags edge,chrome --ask-become-pass
 
 # Combinadas
 ansible-playbook site.yml --tags shell,starship,fonts --ask-become-pass
-ansible-playbook site.yml --tags podman,kubernetes --ask-become-pass
+ansible-playbook site.yml --tags docker,kubernetes --ask-become-pass
 ```
 
 ## Customização
@@ -165,7 +175,7 @@ ansible-workstation/
     ├── fonts_nerd/          # Instalação de fonte Nerd
     ├── starship_prompt/     # Configuração do prompt Starship
     ├── development_tools/   # VS Code, Terraform, AWS CLI
-    ├── containers_podman/   # Podman e podman-compose
+    ├── containers_docker/    # Docker Engine e Docker Compose
     ├── kubernetes/          # kubectl e FreeLens
     └── browsers/            # Edge e Chrome
 ```
@@ -190,14 +200,15 @@ exec zsh
 # Verifique versões
 zsh --version
 starship --version
-podman --version
+docker --version
+docker compose version
 kubectl version --client
 terraform version
 code --version
 aws --version
 
-# Teste Podman
-podman run --rm hello-world
+# Teste Docker
+docker run --rm hello-world
 
 # Teste Starship
 starship config
@@ -258,7 +269,7 @@ ansible-playbook site.yml --tags starship --ask-become-pass
 - Nenhum script é executado sem verificação
 - Uso mínimo do módulo `shell` (prefira módulos nativos)
 - Permissões e propriedade explícitas dos arquivos
-- Usuário adicionado ao grupo `podman` para containers rootless
+- Usuário adicionado ao grupo `docker`
 - Sem credenciais ou dados sensíveis hardcoded
 
 ## Solução de Problemas

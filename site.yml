@@ -42,8 +42,8 @@
     - name: development_tools
       tags: [development, tools]
 
-    - name: containers_podman
-      tags: [podman, containers]
+    - name: containers_docker
+      tags: [docker, containers]
 
     - name: kubernetes
       tags: [kubernetes, k8s]
@@ -61,40 +61,41 @@
 
           Installed Components:
           ✓ Base Development Tools (vim, git, make, curl, etc.)
-          ✓ Shell: Zsh with Oh My Zsh & Agnoster theme
+          ✓ Shell: Zsh with Oh My Zsh
           ✓ Prompt: Starship with Catppuccin Latte
           ✓ Terminal Font: Hack Nerd Font
           ✓ IDE: Visual Studio Code
-          ✓ Container Runtime: Podman (Docker replacement)
+          ✓ Container Runtime: Docker Engine & Docker Compose
           ✓ Orchestration: kubectl & Kubernetes
           ✓ IaC: Terraform
           ✓ Cloud: AWS CLI
-          ✓ Browsers: Microsoft Edge, Google Chrome
-          ✓ Utilities: btop, ncdu, tree, tmux, etc.
+          ✓ Browsers: Microsoft Edge, Google Chrome, Brave Browser
+          ✓ Utilities: btop, ncdu, tree, tmux, Ghostty, etc.
 
-          🚀 Next Steps:
+          Next Steps:
           1. Open a new terminal (Zsh with Starship active)
           2. Set terminal font to "Hack Nerd Font"
           3. Verify installations:
              - zsh --version
              - starship --version
-             - podman --version
+             - docker --version
+             - docker compose version
              - kubectl version --client
              - terraform version
              - code --version
           4. Configure VS Code extensions
-          5. Test Podman: podman run --rm hello-world
+          5. Test Docker: docker run --rm hello-world
           6. Configure kubectl context
 
-          📝 Useful Commands:
+          Useful Commands:
           - ansible-playbook site.yml --tags shell,starship
-          - ansible-playbook site.yml --tags podman
+          - ansible-playbook site.yml --tags docker
           - ansible-playbook site.yml --tags kubernetes
           - ansible-playbook site.yml --tags browsers
 
-          📚 Documentation:
+          Documentation:
           - Starship: https://starship.rs
-          - Podman: https://podman.io
+          - Docker: https://docs.docker.com
           - Kubernetes: https://kubernetes.io
           - Fedora: https://docs.fedoraproject.org
 

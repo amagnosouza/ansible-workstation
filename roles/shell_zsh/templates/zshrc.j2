@@ -9,11 +9,20 @@ ZSH_THEME="{{ zsh_theme }}"
 # Plugins
 plugins=(git podman kubectl docker colored-man-pages)
 
-# Enable completion
-autoload -U compinit && compinit
-
 # Source Oh My Zsh
 source $ZSH/oh-my-zsh.sh
+
+# Zsh plugins installed from Fedora packages
+[[ -r /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -r /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# fzf: fuzzy history search with Ctrl+R and fuzzy completion with Tab
+[[ -r /usr/share/fzf/shell/key-bindings.zsh ]] && \
+  source /usr/share/fzf/shell/key-bindings.zsh
+[[ -r /usr/share/fzf/shell/completion.zsh ]] && \
+  source /usr/share/fzf/shell/completion.zsh
 
 # Starship Prompt
 eval "$(starship init zsh)"
@@ -23,9 +32,10 @@ export EDITOR='vim'
 export LANG=en_US.UTF-8
 
 # Aliases
-alias ll='ls -lah'
-alias la='ls -A'
-alias l='ls -CF'
+alias ls='lsd'
+alias ll='lsd -lah'
+alias la='lsd -A'
+alias l='lsd -l'
 alias grep='grep --color=auto'
 
 # History

@@ -13,9 +13,9 @@ Histórico de versões e mudanças do projeto.
   - `fonts_nerd` - Hack Nerd Font (v3.2.1)
   - `starship_prompt` - Starship com tema Catppuccin Latte
   - `development_tools` - VS Code, Terraform, AWS CLI
-  - `containers_podman` - Podman e podman-compose
+  - `containers_docker` - Docker Engine e Docker Compose
   - `kubernetes` - kubectl e FreeLens
-  - `browsers` - Microsoft Edge e Google Chrome
+  - `browsers` - Microsoft Edge, Google Chrome e Brave Browser
 
 - **Configuração Profissional**: 
   - `ansible.cfg` com otimizações de performance
@@ -30,7 +30,9 @@ Histórico de versões e mudanças do projeto.
 
 ### Modificado
 
-- **Navegadores**: Microsoft Edge e Google Chrome (removido Brave)
+- **Navegadores**: Microsoft Edge, Google Chrome e Brave Browser
+- **Terminal**: Ghostty no lugar do Alacritty
+- **Qualidade**: ansible-lint e validações automatizadas no GitHub Actions
 - **Fonte Terminal**: Hack Nerd Font v3.2.1
 - **Prompt Shell**: Starship com tema Catppuccin Latte integrado ao Zsh
 - **Idempotência Melhorada**: Verificações `changed_when` e handlers apropriados

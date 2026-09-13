@@ -13,10 +13,15 @@ base_packages:
   - git
   - bash-completion
   - zsh
+  - fzf
+  - lsd
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
   - flameshot
   - terminator
   - plocate
   - dnf-plugins-core
   - tmux
-  - alacritty
+  - ghostty
   - cargo
+  - ansible-lint

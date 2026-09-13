@@ -1,6 +1,12 @@
 ---
 # Tasks for Starship prompt installation and configuration
 
+- name: Check whether Starship is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/starship
+  register: starship_binary
+  tags: [starship]
+
 - name: Install Starship via official installer
   ansible.builtin.shell: |
     curl -sS https://starship.rs/install.sh | sh -s -- -y
@@ -8,6 +14,7 @@
     executable: /bin/bash
   environment:
     BIN_DIR: "/usr/local/bin"
+  when: not starship_binary.stat.exists
   changed_when: true
   tags: [starship]
 
@@ -23,7 +30,7 @@
 - name: Apply Catppuccin Powerline preset
   ansible.builtin.shell: |
     /usr/local/bin/starship preset {{ starship_preset }} -o /tmp/starship.toml
-  changed_when: true
+  changed_when: false
   tags: [starship]
 
 - name: Copy Starship config to user directory
