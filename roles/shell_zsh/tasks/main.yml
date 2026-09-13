@@ -9,8 +9,9 @@
 
 - name: Install Oh My Zsh non-interactively
   ansible.builtin.shell: |
-    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | \
-    env RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh
+    curl -fsSL \
+      https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | \
+      env RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh
   when: not ohmyzsh.stat.exists
   changed_when: true
   become_user: "{{ target_user }}"

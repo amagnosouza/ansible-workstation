@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -44,8 +44,11 @@ jobs:
 
           site = yaml.safe_load(Path("site.yml").read_text())
           roles = [entry["name"] for entry in site[0]["roles"]]
-          missing = [role for role in roles if not (Path("roles") / role).is_dir()]
+          missing = [
+              role for role in roles if not (Path("roles") / role).is_dir()
+          ]
           if missing:
-              raise SystemExit(f"Missing role directories: {', '.join(missing)}")
+              message = f"Missing role directories: {', '.join(missing)}"
+              raise SystemExit(message)
           print(f"Validated {len(roles)} role directories")
           PY

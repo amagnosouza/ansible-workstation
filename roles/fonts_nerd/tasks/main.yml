@@ -12,7 +12,8 @@
 
 - name: Download Nerd Font
   ansible.builtin.get_url:
-    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerd_font_version }}/{{ nerd_font_name }}.zip"
+    url: >-
+      https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerd_font_version }}/{{ nerd_font_name }}.zip
     dest: "/tmp/{{ nerd_font_name }}.zip"
     mode: '0644'
   register: font_download

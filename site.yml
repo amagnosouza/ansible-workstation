@@ -15,7 +15,9 @@
           - ansible_facts['os_family'] == 'RedHat'
           - ansible_facts['distribution'] == 'Fedora'
         fail_msg: "This playbook is designed for Fedora Workstation."
-        success_msg: "Detected Fedora {{ ansible_facts['distribution_version'] }}: proceeding with configuration."
+        success_msg: >-
+          Detected Fedora {{ ansible_facts['distribution_version'] }}:
+          proceeding with configuration.
       tags: [always]
 
     - name: Create logs directory
