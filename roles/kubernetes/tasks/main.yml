@@ -5,10 +5,9 @@
   ansible.builtin.yum_repository:
     name: kubernetes
     description: Kubernetes Official Repository - Stable
-    baseurl: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/"
+    baseurl: "{{ kubernetes_repo_base }}/"
     gpgcheck: true
-    gpgkey: >-
-      https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/repodata/repomd.xml.key
+    gpgkey: "{{ kubernetes_repo_base }}/repodata/repomd.xml.key"
     enabled: true
   tags: [kubernetes, kubectl]
 

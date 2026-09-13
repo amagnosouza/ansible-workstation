@@ -3,3 +3,4 @@
 
 nerd_font_name: "Hack"
 nerd_font_version: "3.2.1"
+nerd_font_release_base: "https://github.com/ryanoasis/nerd-fonts/releases/download"

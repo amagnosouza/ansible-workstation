@@ -28,7 +28,7 @@ jobs:
           python -m pip install ansible-core ansible-lint yamllint
 
       - name: Validate YAML
-        run: yamllint -d relaxed .
+        run: yamllint .
 
       - name: Validate Ansible syntax
         run: ansible-playbook site.yml -i localhost, --syntax-check
