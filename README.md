@@ -4,7 +4,7 @@ Projeto Ansible para automatizar a configuração de uma estação de trabalho F
 
 **Versão:** 2.0 (Modular com Roles)  
 **Testado Em:** Fedora Workstation 43+  
-**Última Atualização:** Janeiro 2026
+**Última Atualização:** Setembro 2026
 
 ## Recursos
 
