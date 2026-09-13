@@ -1,4 +1,4 @@
 ---
 # Default variables for shell_zsh role
 
-zsh_theme: "agnoster"
+shell_zsh_theme: "agnoster"

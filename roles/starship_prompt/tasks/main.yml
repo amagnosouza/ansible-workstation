@@ -4,17 +4,23 @@
 - name: Check whether Starship is already installed
   ansible.builtin.stat:
     path: /usr/local/bin/starship
-  register: starship_binary
+  register: starship_prompt_binary
+  tags: [starship]
+
+- name: Download Starship installer
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship-install.sh
+    mode: '0755'
+  when: not starship_prompt_binary.stat.exists
   tags: [starship]
 
 - name: Install Starship via official installer
-  ansible.builtin.shell: |
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
-  args:
-    executable: /bin/bash
+  ansible.builtin.command:
+    cmd: sh /tmp/starship-install.sh -y
   environment:
     BIN_DIR: "/usr/local/bin"
-  when: not starship_binary.stat.exists
+  when: not starship_prompt_binary.stat.exists
   changed_when: true
   tags: [starship]
 
@@ -29,7 +35,7 @@
 
 - name: Apply Catppuccin Powerline preset
   ansible.builtin.shell: |
-    /usr/local/bin/starship preset {{ starship_preset }} -o /tmp/starship.toml
+    /usr/local/bin/starship preset {{ starship_prompt_preset }} -o /tmp/starship.toml
   changed_when: false
   tags: [starship]
 
@@ -47,7 +53,7 @@
   ansible.builtin.lineinfile:
     path: "/home/{{ target_user }}/.config/starship.toml"
     regexp: "^palette = "
-    line: "palette = '{{ starship_palette }}'"
+    line: "palette = '{{ starship_prompt_palette }}'"
     state: present
   tags: [starship]
 
@@ -56,6 +62,7 @@
     path: "/home/{{ target_user }}/.zshrc"
     line: 'eval "$(starship init zsh)"'
     state: present
+  become: true
   become_user: "{{ target_user }}"
   tags: [starship]
 

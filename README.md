@@ -139,7 +139,7 @@ ansible-playbook site.yml \
 
 # Instale FreeLens
 ansible-playbook site.yml \
-  -e "freelens_rpm_url=https://example.com/freelens.rpm" \
+  -e "kubernetes_freelens_rpm_url=https://example.com/freelens.rpm" \
   --tags kubernetes \
   --ask-become-pass
 ```
@@ -154,8 +154,8 @@ Crie `group_vars/local_workstation.yml`:
 zsh_theme: "agnoster"
 starship_preset: "catppuccin-powerline"
 starship_palette: "catppuccin_latte"
-nerd_font_name: "Hack"
-nerd_font_version: "3.2.1"
+fonts_nerd_name: "Hack"
+fonts_nerd_version: "3.2.1"
 kubernetes_version: "1.30"
 ```
 

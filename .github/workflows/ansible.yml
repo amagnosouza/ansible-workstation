@@ -43,7 +43,7 @@ jobs:
           import yaml
 
           site = yaml.safe_load(Path("site.yml").read_text())
-          roles = [entry["name"] for entry in site[0]["roles"]]
+          roles = [entry["role"] for entry in site[0]["roles"]]
           missing = [
               role for role in roles if not (Path("roles") / role).is_dir()
           ]

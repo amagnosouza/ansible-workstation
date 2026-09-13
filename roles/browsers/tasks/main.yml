@@ -2,6 +2,7 @@
 # Tasks for web browsers (Edge, Chrome)
 
 - name: Configure Microsoft Edge repository
+  tags: [edge, browsers]
   block:
     - name: Import Microsoft GPG key for Edge
       ansible.builtin.rpm_key:
@@ -21,9 +22,9 @@
       ansible.builtin.dnf:
         name: microsoft-edge-stable
         state: present
-  tags: [edge, browsers]
 
 - name: Install Google Chrome (Stable)
+  tags: [chrome, browsers]
   block:
     - name: Add Google Chrome repository
       ansible.builtin.yum_repository:
@@ -39,9 +40,9 @@
       ansible.builtin.dnf:
         name: google-chrome-stable
         state: present
-  tags: [chrome, browsers]
 
 - name: Configure Brave Browser repository
+  tags: [brave, browsers]
   block:
     - name: Import Brave Browser GPG key
       ansible.builtin.rpm_key:
@@ -61,4 +62,3 @@
       ansible.builtin.dnf:
         name: brave-browser
         state: present
-  tags: [brave, browsers]

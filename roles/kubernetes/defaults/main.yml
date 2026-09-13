@@ -3,4 +3,4 @@
 
 kubernetes_version: "1.30"
 kubernetes_repo_base: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm"
-freelens_rpm_url: ""  # Set via extra vars if needed
+kubernetes_freelens_rpm_url: ""  # Set via extra vars if needed

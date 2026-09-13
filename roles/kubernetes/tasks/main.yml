@@ -18,26 +18,26 @@
   tags: [kubernetes, kubectl]
 
 - name: Install FreeLens (Kubernetes IDE) - Optional
+  tags: [kubernetes, optional]
   block:
     - name: Download FreeLens RPM
       ansible.builtin.get_url:
-        url: "{{ freelens_rpm_url }}"
+        url: "{{ kubernetes_freelens_rpm_url }}"
         dest: "/tmp/freelens.rpm"
         mode: '0644'
-      when: freelens_rpm_url | default('') | length > 0
+      when: kubernetes_freelens_rpm_url | default('') | length > 0
       tags: [freelens, optional]
 
     - name: Install FreeLens RPM
       ansible.builtin.dnf:
         name: /tmp/freelens.rpm
         state: present
-      when: freelens_rpm_url | default('') | length > 0
+      when: kubernetes_freelens_rpm_url | default('') | length > 0
       tags: [freelens, optional]
 
     - name: Clean up FreeLens installer
       ansible.builtin.file:
         path: "/tmp/freelens.rpm"
         state: absent
-      when: freelens_rpm_url | default('') | length > 0
+      when: kubernetes_freelens_rpm_url | default('') | length > 0
       tags: [freelens, optional]
-  tags: [kubernetes, optional]

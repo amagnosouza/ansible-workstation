@@ -29,28 +29,28 @@
       tags: [always]
 
   roles:
-    - name: base_system
+    - role: base_system
       tags: [base, always]
 
-    - name: shell_zsh
+    - role: shell_zsh
       tags: [shell, zsh]
 
-    - name: fonts_nerd
+    - role: fonts_nerd
       tags: [fonts, nerd]
 
-    - name: starship_prompt
+    - role: starship_prompt
       tags: [starship, prompt]
 
-    - name: development_tools
+    - role: development_tools
       tags: [development, tools]
 
-    - name: containers_docker
+    - role: containers_docker
       tags: [docker, containers]
 
-    - name: kubernetes
+    - role: kubernetes
       tags: [kubernetes, k8s]
 
-    - name: browsers
+    - role: browsers
       tags: [browsers, web]
 
   post_tasks:

@@ -4,16 +4,24 @@
 - name: Check if Oh My Zsh is present
   ansible.builtin.stat:
     path: "/home/{{ target_user }}/.oh-my-zsh"
-  register: ohmyzsh
+  register: shell_zsh_ohmyzsh
+  tags: [zsh]
+
+- name: Download Oh My Zsh installer
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/ohmyzsh-install.sh
+    mode: '0755'
+  when: not shell_zsh_ohmyzsh.stat.exists
+  become: true
+  become_user: "{{ target_user }}"
   tags: [zsh]
 
 - name: Install Oh My Zsh non-interactively
-  ansible.builtin.shell: |
-    curl -fsSL \
-      https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | \
-      env RUNZSH=no CHSH=no \
-      KEEP_ZSHRC=yes sh
-  when: not ohmyzsh.stat.exists
+  ansible.builtin.command:
+    cmd: env RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh /tmp/ohmyzsh-install.sh
+  when: not shell_zsh_ohmyzsh.stat.exists
+  become: true
   changed_when: true
   become_user: "{{ target_user }}"
   tags: [zsh]
@@ -29,7 +37,7 @@
     path: /etc/shells
     line: /usr/bin/zsh
     state: present
-  register: shells_updated
+  register: shell_zsh_shells_updated
   tags: [zsh]
 
 - name: Create Zsh config directory
@@ -48,5 +56,6 @@
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
     mode: '0644'
+  become: true
   become_user: "{{ target_user }}"
   tags: [zsh]

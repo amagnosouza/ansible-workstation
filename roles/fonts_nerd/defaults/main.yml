@@ -1,6 +1,6 @@
 ---
 # Default variables for fonts_nerd role
 
-nerd_font_name: "Hack"
-nerd_font_version: "3.2.1"
-nerd_font_release_base: "https://github.com/ryanoasis/nerd-fonts/releases/download"
+fonts_nerd_name: "Hack"
+fonts_nerd_version: "3.2.1"
+fonts_nerd_release_base: "https://github.com/ryanoasis/nerd-fonts/releases/download"
